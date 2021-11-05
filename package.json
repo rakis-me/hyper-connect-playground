@@ -1,0 +1,19 @@
+{
+  "name": "hyper-connect-playground",
+  "version": "1.0.0",
+  "type":"module",
+  "main": "index.js",
+  "repository": "https://github.com/rakis-me/hyper-connect-playground.git",
+  "author": "rakis <rakis_me@protonmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "hyper-connect": "^0.0.16",
+    "node-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0"
+  },
+  "scripts": {
+    "dev": "node -r dotenv/config -r ./register.cjs index.js"
+  }
+}
