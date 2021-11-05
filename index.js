@@ -39,10 +39,9 @@ const del = id => deCache(id)
 
 // callstack
 async function main() {
-  log(await get('game-1'))
-  log(await get('game-2'))
-  log(await get('game-3'))
-
+  const results = await hyper.data.query({type: 'game'})
+  console.log(results)
+  
 }
 
 main()
