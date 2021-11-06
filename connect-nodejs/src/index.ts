@@ -10,7 +10,9 @@ interface HyperData<Type> {
   list: (options?: unknown) => Promise<any>,
   update: (id: string, doc: unknown) => Promise<any>,
   remove: (id: string) => Promise<any>,
-  query: (selector: unknown, options?: unknown) => Promise<any>
+  query: (selector: unknown, options?: unknown) => Promise<any>,
+  index: (name: string, fields: Array<string>) => Promise<any>,
+  bulk: (docs: Array<any>) => Promise<any>
 }
 
 interface Hyper {
@@ -64,7 +66,15 @@ export function connect (CONNSTRING : string ) {
         query: (selector, options) =>
           Promise.resolve(br('data', domain))
             .then(doRequest(data.query(selector, options)))
-            .then(doFetch)
+            .then(doFetch),
+        index: (name, fields) =>
+          Promise.resolve(br('data', domain))
+            .then(doRequest(data.index(name, fields)))
+            .then(doFetch),
+        bulk: (docs) => 
+          Promise.resolve(br('data', domain))
+            .then(doRequest(data.bulk(docs)))
+            .then(doFetch),
       }
     }
   }
