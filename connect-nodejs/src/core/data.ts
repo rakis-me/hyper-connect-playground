@@ -1,3 +1,4 @@
+import { Request } from 'node-fetch'
 import { ReaderT, Async, map } from "crocks";
 
 const { of, ask, lift } = ReaderT(Async);

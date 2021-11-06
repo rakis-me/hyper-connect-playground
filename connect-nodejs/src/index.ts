@@ -1,21 +1,28 @@
+import fetch, { Request } from 'node-fetch'
+
 import data from './core/data'
 import { buildRequest } from './utils'
 
-interface HyperData {
-  add: Function,
-  get: Function
+interface HyperData<Type> {
+  add: (body: Type) => Type,
+  get: (id: string) => Type,
+  list: (options?: unknown) => Promise<unknown>,
+  update: (id: string, doc: unknown) => Promise<unknown>,
+
 }
 
 interface Hyper {
-  data: HyperData
+  data: HyperData<unknown>
 }
 
-export function connect (CONNSTRING : string) {
-  console.log(CONNSTRING)
+export function connect (CONNSTRING : string ) {
+  
   const br = buildRequest(new URL(CONNSTRING))
   return function hyper (domain: string = 'default') : Hyper  {
-    function doRequest(x : any, request : Request ) {
-      return x.runWith(request).toPromise()
+    function doRequest(x : any ) {
+      return function (request : Request) {
+        return x.runWith(request).toPromise()
+      }
     }
     function doFetch(r: Request) {
       return fetch(r).then(res => {
@@ -28,16 +35,23 @@ export function connect (CONNSTRING : string) {
     }
     return {
       data: {
-        add: async (body: unknown) => {
-          const request = await br('data', domain)
-          const r = await doRequest(data.add(body), request)
-          return doFetch(r)
-        },
-        get: async (id: string) => {
-          const request = await br('data', domain)
-          const r = await doRequest(data.get(id), request)
-          return doFetch(r)
-        }
+        add: (body: unknown) => 
+          Promise.resolve(br('data', domain))
+            .then(doRequest(data.add(body)))
+            .then(doFetch),
+        get: (id: string) => 
+          Promise.resolve(br('data', domain))
+            .then(doRequest(data.get(id)))
+            .then(doFetch),
+        list: (options?: unknown) => 
+          Promise.resolve(br('data', domain))
+            .then(doRequest(data.list(options)))
+            .then(doFetch)
+        ,
+        update: (id: string, doc: unknown) =>
+          Promise.resolve(br('data', domain))
+            .then(doRequest(data.update(id, doc)))
+            .then(doFetch) 
       }
     }
   }
