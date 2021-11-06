@@ -35,20 +35,20 @@ export function connect (CONNSTRING : string ) {
     }
     return {
       data: {
-        add: (body: unknown) => 
+        add: (body) => 
           Promise.resolve(br('data', domain))
             .then(doRequest(data.add(body)))
             .then(doFetch),
-        get: (id: string) => 
+        get: (id) => 
           Promise.resolve(br('data', domain))
             .then(doRequest(data.get(id)))
             .then(doFetch),
-        list: (options?: unknown) => 
+        list: (options) => 
           Promise.resolve(br('data', domain))
             .then(doRequest(data.list(options)))
             .then(doFetch)
         ,
-        update: (id: string, doc: unknown) =>
+        update: (id, doc) =>
           Promise.resolve(br('data', domain))
             .then(doRequest(data.update(id, doc)))
             .then(doFetch) 
