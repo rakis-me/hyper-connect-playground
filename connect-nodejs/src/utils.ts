@@ -2,6 +2,8 @@ import { Async } from 'crocks'
 import { assoc, lensPath, over, ifElse, defaultTo, identity } from 'ramda';
 import { SignJWT } from "jose"
 import { Request } from 'node-fetch'
+import { URL } from "url"
+
 
 const generateToken = async (sub : string, secret : string) => {
   const crypto = await import("crypto");

@@ -1,14 +1,16 @@
-import fetch, { Request } from 'node-fetch'
+import fetch, { Request, Response } from 'node-fetch'
+import { URL } from "url"
 
 import data from './core/data'
 import { buildRequest } from './utils'
 
 interface HyperData<Type> {
-  add: (body: Type) => Type,
-  get: (id: string) => Type,
-  list: (options?: unknown) => Promise<unknown>,
-  update: (id: string, doc: unknown) => Promise<unknown>,
-
+  add: (body: Type) => Promise<any>,
+  get: (id: string) => Promise<Type | unknown>,
+  list: (options?: unknown) => Promise<any>,
+  update: (id: string, doc: unknown) => Promise<any>,
+  remove: (id: string) => Promise<any>,
+  query: (selector: unknown, options?: unknown) => Promise<any>
 }
 
 interface Hyper {
@@ -25,13 +27,16 @@ export function connect (CONNSTRING : string ) {
       }
     }
     function doFetch(r: Request) {
-      return fetch(r).then(res => {
+
+      function handleResponse(res: Response) {
         if (res?.headers?.get('content-type')?.includes('application/json')) {
           return res.json()
         } else {
           return res.text()
         }
-      })
+      }
+
+      return fetch(r).then(handleResponse)
     }
     return {
       data: {
@@ -51,7 +56,15 @@ export function connect (CONNSTRING : string ) {
         update: (id, doc) =>
           Promise.resolve(br('data', domain))
             .then(doRequest(data.update(id, doc)))
-            .then(doFetch) 
+            .then(doFetch) ,
+        remove: (id) =>
+          Promise.resolve(br('data', domain))
+            .then(doRequest(data.remove(id)))
+            .then(doFetch),
+        query: (selector, options) =>
+          Promise.resolve(br('data', domain))
+            .then(doRequest(data.query(selector, options)))
+            .then(doFetch)
       }
     }
   }
