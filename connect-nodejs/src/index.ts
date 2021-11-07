@@ -4,19 +4,51 @@ import { URL } from "url"
 import data from './core/data'
 import { buildRequest } from './utils'
 
-interface HyperData<Type> {
-  add: (body: Type) => Promise<any>,
-  get: (id: string) => Promise<Type | unknown>,
-  list: (options?: unknown) => Promise<any>,
-  update: (id: string, doc: unknown) => Promise<any>,
-  remove: (id: string) => Promise<any>,
-  query: (selector: unknown, options?: unknown) => Promise<any>,
-  index: (name: string, fields: Array<string>) => Promise<any>,
-  bulk: (docs: Array<any>) => Promise<any>
+interface Result {
+  ok: boolean,
+  id?: string,
+  msg?: string,
+  error?: string
+}
+
+interface Results <Type> {
+  ok: boolean,
+  docs: Type[]
+}
+
+interface ListOptions {
+  limit?: number,
+  startkey?: string,
+  endkey?: string,
+  keys: string[],
+  descending: boolean
+}
+
+enum SortOptions {
+  DESC = 'DESC',
+  ASC = 'ASC'
+}
+
+interface QueryOptions {
+  fields?: string[],
+  sort?: {[k:string]: SortOptions}[],
+  limit?: number,
+  use_index?: string
+}
+
+interface HyperData {
+  add: <Type>(body: Type) => Promise<Result>,
+  get: <Type>(id: string) => Promise<Type>,
+  list: <T>(options?: ListOptions) => Promise<Results<T>>,
+  update: <Type>(id: string, doc: Type) => Promise<Result>,
+  remove: (id: string) => Promise<Result>,
+  query: <T>(selector: unknown, options?: QueryOptions) => Promise<Results<T>>,
+  index: (name: string, fields: Array<string>) => Promise<Result>,
+  bulk: <Type>(docs: Array<Type>) => Promise<Result>
 }
 
 interface Hyper {
-  data: HyperData<unknown>
+  data: HyperData
 }
 
 export function connect (CONNSTRING : string ) {

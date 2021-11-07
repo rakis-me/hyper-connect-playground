@@ -1,7 +1,6 @@
-const { connect } = require('connect-nodejs')
+const { connect } = require('hyper-connect')
 
 const hyper = connect(process.env.HYPER)()
 
-hyper.data.get('foo')
-  .then(console.log)
-  
+hyper.data.add({id: 'game-2', type: 'game', name: 'Donkey Kong'})
+  .then(res => console.log(res))
