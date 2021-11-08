@@ -1,4 +1,4 @@
-import { fork } from 'hyper-connect'
+import { fork } from 'connect'
 
 
 export async function get () {

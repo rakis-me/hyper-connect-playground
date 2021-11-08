@@ -1,0 +1,29 @@
+{
+  "name": "connect",
+  "version": "1.0.0",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "source": "src/index.ts",
+  "exports": {
+    "require": "./dist/index.cjs",
+    "default": "./dist/index.modern.js"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.module.js",
+  "unpkg": "./dist/index.umd.js",
+  "scripts": {
+    "build": "microbundle"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "jose": "^4.1.5",
+    "node-fetch": "2",
+    "ramda": "^0.27.1"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "2",
+    "@types/ramda": "^0.27.46",
+    "microbundle": "^0.14.1",
+    "typescript": "^4.4.4"
+  }
+}
