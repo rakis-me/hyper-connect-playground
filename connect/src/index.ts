@@ -14,7 +14,5 @@ export async function fork (url : string, options?: any) {
   const headers = assoc('authorization', `Bearer ${token}`, {})
 
   return fetch(url, {headers})
-  // return Async.fromPromise(fetch)(url, {
-  //   headers
-  // }).toPromise()
+  
 }

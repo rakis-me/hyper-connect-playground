@@ -1,5 +1,5 @@
 {
-  "name": "connect",
+  "name": "hyper-connect",
   "version": "1.0.0",
   "type": "module",
   "types": "dist/index.d.ts",
@@ -16,6 +16,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "crocks": "^0.12.4",
     "jose": "^4.1.5",
     "node-fetch": "2",
     "ramda": "^0.27.1"
