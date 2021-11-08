@@ -2,12 +2,13 @@
   "name": "hyper-svelte",
   "version": "0.0.1",
   "scripts": {
-    "dev": "svelte-kit dev",
+    "dev": "env-cmd svelte-kit dev",
     "build": "svelte-kit build",
     "preview": "svelte-kit preview"
   },
   "devDependencies": {
     "@sveltejs/kit": "next",
+    "env-cmd": "^10.1.0",
     "svelte": "^3.34.0"
   },
   "type": "module",

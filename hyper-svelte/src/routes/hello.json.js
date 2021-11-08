@@ -1,12 +1,11 @@
-import { fork } from 'connect'
+import { connect } from 'hyper-connect'
 
+const hyper = connect(`${process.env['HYPER']}`)
 
 export async function get () {
  
-  const result = await fork('https://example.com')
-  const text = await result.text()
-  
+  const result = await hyper.data.add({id: 'beep7', type: 'msg'})
   return {
-    body: { hello: text}
+    body: result 
   }
 }

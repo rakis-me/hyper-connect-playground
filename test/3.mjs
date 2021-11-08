@@ -1,10 +1,11 @@
-import {fork} from 'connect'
+import { connect } from 'hyper-connect'
 
-async function main() {
-  const result = await fork('https://example.com')
-  console.log(
-    await result.text()
-  )
+const hyper = connect(`${process.env.HYPER}`)
+
+async function main () {
+  const result = await hyper.data.add({id: 'beep5', type:'msg', text: 'boop'})
+
+  console.log(result)
 }
 
 main()
